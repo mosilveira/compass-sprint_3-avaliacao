@@ -43,4 +43,15 @@ public class StateController {
         URI uri = uriComponentsBuilder.path("/api/states/{id}").buildAndExpand(state.getId()).toUri();
         return ResponseEntity.created(uri).body(new StateDTO(state));
     }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<StateDTO> update(@PathVariable Long id, @RequestBody @Valid StateDTO stateDTO) {
+        Optional<State> optional = stateRepository.findById(id);
+        if (optional.isPresent()) {
+            State state = stateDTO.update(id, stateRepository);
+            return ResponseEntity.ok(new StateDTO(state));
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

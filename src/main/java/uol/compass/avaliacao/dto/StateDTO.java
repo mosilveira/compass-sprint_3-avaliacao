@@ -2,6 +2,7 @@ package uol.compass.avaliacao.dto;
 
 import uol.compass.avaliacao.model.CountryRegion;
 import uol.compass.avaliacao.model.State;
+import uol.compass.avaliacao.repository.StateRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,5 +58,16 @@ public class StateDTO {
 
     public State toModel(StateDTO stateDTO) {
         return new State(stateDTO.getNome(), stateDTO.getRegiao(), stateDTO.getPopulacao(), stateDTO.getCapital(), stateDTO.getArea());
+    }
+
+    public State update(Long id, StateRepository stateRepository) {
+        State state = stateRepository.getById(id);
+        state.setNome(this.nome);
+        state.setRegiao(this.regiao);
+        state.setPopulacao(this.populacao);
+        state.setCapital(this.capital);
+        state.setArea(this.area);
+
+        return state;
     }
 }
