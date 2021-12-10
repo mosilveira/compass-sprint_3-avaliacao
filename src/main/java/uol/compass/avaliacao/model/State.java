@@ -14,6 +14,17 @@ public class State {
     private String capital;
     private Double area;
 
+    public State() {
+    }
+
+    public State(String nome, CountryRegion regiao, Integer populacao, String capital, Double area) {
+        this.nome = nome;
+        this.regiao = regiao;
+        this.populacao = populacao;
+        this.capital = capital;
+        this.area = area;
+    }
+
     public Long getId() {
         return id;
     }

@@ -2,14 +2,15 @@ package uol.compass.avaliacao.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import uol.compass.avaliacao.dto.StateDTO;
 import uol.compass.avaliacao.model.State;
 import uol.compass.avaliacao.repository.StateRepository;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +32,15 @@ public class StateController {
         Optional<State> optional = stateRepository.findById(id);
         return optional.map(state ->
                 ResponseEntity.ok(new StateDTO(state))).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    @Transactional
+    public ResponseEntity<StateDTO> create(@RequestBody @Valid StateDTO stateDTO, UriComponentsBuilder uriComponentsBuilder) {
+        State state = stateDTO.toModel(stateDTO);
+        stateRepository.save(state);
+
+        URI uri = uriComponentsBuilder.path("/api/states/{id}").buildAndExpand(state.getId()).toUri();
+        return ResponseEntity.created(uri).body(new StateDTO(state));
     }
 }

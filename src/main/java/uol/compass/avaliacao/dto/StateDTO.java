@@ -15,6 +15,9 @@ public class StateDTO {
     private String capital;
     private Double area;
 
+    public StateDTO() {
+    }
+
     public StateDTO(State state) {
         this.id = state.getId();
         this.nome = state.getNome();
@@ -50,5 +53,9 @@ public class StateDTO {
 
     public static List<StateDTO> toDTO(List<State> states) {
         return states.stream().map(StateDTO::new).collect(Collectors.toList());
+    }
+
+    public State toModel(StateDTO stateDTO) {
+        return new State(stateDTO.getNome(), stateDTO.getRegiao(), stateDTO.getPopulacao(), stateDTO.getCapital(), stateDTO.getArea());
     }
 }
