@@ -13,7 +13,7 @@ public class StateDTO {
     private CountryRegion regiao;
     private Integer populacao;
     private String capital;
-    private Float area;
+    private Double area;
 
     public StateDTO(State state) {
         this.id = state.getId();
@@ -44,7 +44,7 @@ public class StateDTO {
         return capital;
     }
 
-    public Float getArea() {
+    public Double getArea() {
         return area;
     }
 

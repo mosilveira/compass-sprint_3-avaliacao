@@ -12,7 +12,7 @@ public class State {
     private CountryRegion regiao;
     private Integer populacao;
     private String capital;
-    private Float area;
+    private Double area;
 
     public Long getId() {
         return id;
@@ -54,11 +54,11 @@ public class State {
         this.capital = capital;
     }
 
-    public Float getArea() {
+    public Double getArea() {
         return area;
     }
 
-    public void setArea(Float area) {
+    public void setArea(Double area) {
         this.area = area;
     }
 }
