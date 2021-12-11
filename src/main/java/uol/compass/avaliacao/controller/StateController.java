@@ -12,9 +12,11 @@ import uol.compass.avaliacao.repository.StateRepository;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.reverseOrder;
 
 @RestController
 @RequestMapping("/api/states")
@@ -36,9 +38,9 @@ public class StateController {
 
         if (sort != null) {
             if (sort.equals("populacao")) {
-                states.sort(Comparator.comparing(State::getPopulacao, Comparator.reverseOrder()));
+                states.sort(comparing(State::getPopulacao, reverseOrder()));
             } else if (sort.equals("area")) {
-                states.sort(Comparator.comparing(State::getArea, Comparator.reverseOrder()));
+                states.sort(comparing(State::getArea, reverseOrder()));
             }
         }
 
