@@ -5,12 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import uol.compass.avaliacao.dto.StateDTO;
+import uol.compass.avaliacao.model.CountryRegion;
 import uol.compass.avaliacao.model.State;
 import uol.compass.avaliacao.repository.StateRepository;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +24,24 @@ public class StateController {
     private StateRepository stateRepository;
 
     @GetMapping
-    public List<StateDTO> findAll() {
-        List<State> states = stateRepository.findAll();
+    public List<StateDTO> findAll(@RequestParam(required = false) CountryRegion regiao, @RequestParam(required = false) String sort) {
+
+        List<State> states;
+
+        if (regiao == null) {
+            states = stateRepository.findAll();
+        } else {
+            states = stateRepository.findAllByRegiao(regiao);
+        }
+
+        if (sort != null) {
+            if (sort.equals("populacao")) {
+                states.sort(Comparator.comparing(State::getPopulacao, Comparator.reverseOrder()));
+            } else if (sort.equals("area")) {
+                states.sort(Comparator.comparing(State::getArea, Comparator.reverseOrder()));
+            }
+        }
+
         return StateDTO.toDTO(states);
     }
 
