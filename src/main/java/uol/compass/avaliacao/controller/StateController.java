@@ -26,7 +26,8 @@ public class StateController {
     private StateRepository stateRepository;
 
     @GetMapping
-    public List<StateDTO> findAll(@RequestParam(required = false) CountryRegion regiao, @RequestParam(required = false) String sort) {
+    public List<StateDTO> findAll(@RequestParam(required = false) CountryRegion regiao,
+                                  @RequestParam(required = false) String sort) {
 
         List<State> states;
 
@@ -43,7 +44,6 @@ public class StateController {
                 states.sort(comparing(State::getArea, reverseOrder()));
             }
         }
-
         return StateDTO.toDTO(states);
     }
 
@@ -81,7 +81,7 @@ public class StateController {
         Optional<State> optional = stateRepository.findById(id);
         if (optional.isPresent()) {
             stateRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
