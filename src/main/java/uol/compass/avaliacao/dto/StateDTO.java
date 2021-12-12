@@ -56,10 +56,6 @@ public class StateDTO {
         return states.stream().map(StateDTO::new).collect(Collectors.toList());
     }
 
-    public State toModel(StateDTO stateDTO) {
-        return new State(stateDTO.getNome(), stateDTO.getRegiao(), stateDTO.getPopulacao(), stateDTO.getCapital(), stateDTO.getArea());
-    }
-
     public State update(Long id, StateRepository stateRepository) {
         State state = stateRepository.getById(id);
         state.setNome(this.nome);
