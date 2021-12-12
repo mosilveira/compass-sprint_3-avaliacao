@@ -53,14 +53,17 @@ public class FormStateDTO {
         return area;
     }
 
+    // Método que converte uma lista da entidade estado em DTO
     public static List<FormStateDTO> toDTO(List<State> states) {
         return states.stream().map(FormStateDTO::new).collect(Collectors.toList());
     }
 
+    // Método para converter um formulário na entidade
     public State toModel(FormStateDTO stateDTO) {
         return new State(stateDTO.getNome(), stateDTO.getRegiao(), stateDTO.getPopulacao(), stateDTO.getCapital(), stateDTO.getArea());
     }
 
+    // Método para atualizar um estado selecionado pelo id
     public State update(Long id, StateRepository stateRepository) {
         State state = stateRepository.getById(id);
         state.setNome(this.nome);

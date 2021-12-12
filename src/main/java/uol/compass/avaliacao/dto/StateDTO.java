@@ -52,10 +52,12 @@ public class StateDTO {
         return area;
     }
 
+    // Método para converter uma lista de estados em uma lista DTO
     public static List<StateDTO> toDTO(List<State> states) {
         return states.stream().map(StateDTO::new).collect(Collectors.toList());
     }
 
+    // Método para atualizar um estado selecionado pelo id
     public State update(Long id, StateRepository stateRepository) {
         State state = stateRepository.getById(id);
         state.setNome(this.nome);

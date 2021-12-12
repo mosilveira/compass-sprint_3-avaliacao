@@ -19,13 +19,19 @@ public class ValidationErrorHandler {
     @Autowired
     private MessageSource messageSource;
 
+    // Trata a exceção MethodArgumentNotValidException dos métodos POST e PUT
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<FormValidationErrorDTO> handle(MethodArgumentNotValidException exception) {
+
+        // DTO para exibir os campos e mensagens dos erros
         List<FormValidationErrorDTO> dto = new ArrayList<>();
 
+        // Recupera um lista de possíveis erros e seus campos
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
         fieldErrors.forEach(e -> {
+
+            // Captura a mensagem do erro
             String message = messageSource.getMessage(e, LocaleContextHolder.getLocale());
             FormValidationErrorDTO error = new FormValidationErrorDTO(e.getField(), message);
             dto.add(error);

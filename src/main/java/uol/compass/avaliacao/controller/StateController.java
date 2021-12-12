@@ -26,6 +26,9 @@ public class StateController {
     @Autowired
     private StateRepository stateRepository;
 
+    // GET - Retorna uma lista de estados
+    // Parametro regiao usado apra filtrar a lista por regiao
+    // Parametro sort usado para ordenar a lista por população ou area
     @GetMapping
     public List<StateDTO> findAll(@RequestParam(required = false) CountryRegion regiao,
                                   @RequestParam(required = false) String sort) {
@@ -48,6 +51,7 @@ public class StateController {
         return StateDTO.toDTO(states);
     }
 
+    // GET - Retorna um estado pelo id
     @GetMapping("/{id}")
     public ResponseEntity<StateDTO> findById(@PathVariable Long id) {
         Optional<State> optional = stateRepository.findById(id);
@@ -55,6 +59,7 @@ public class StateController {
                 ResponseEntity.ok(new StateDTO(state))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // POST - Cria um novo estado no cadastro
     @PostMapping
     @Transactional
     public ResponseEntity<StateDTO> create(@RequestBody @Valid FormStateDTO formStateDTO, UriComponentsBuilder uriComponentsBuilder) {
@@ -65,6 +70,7 @@ public class StateController {
         return ResponseEntity.created(uri).body(new StateDTO(state));
     }
 
+    // PUT - Atualiza um estado de acordo com o id
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<StateDTO> update(@PathVariable Long id, @RequestBody @Valid FormStateDTO formStateDTO) {
@@ -76,6 +82,7 @@ public class StateController {
         return ResponseEntity.notFound().build();
     }
 
+    // DELETE - Exclui um estado de acordo com o id
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> remove(@PathVariable Long id) {
