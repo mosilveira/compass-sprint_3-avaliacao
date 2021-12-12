@@ -1,0 +1,154 @@
+openapi: 3.0.1
+info:
+  title: API de Estados
+  description: API para controlar o Estados registrados
+  version: 0.0.1
+externalDocs:
+  description: Código da API
+  url: https://github.com/mosilveira/compass-sprint_3-avaliacao
+servers:
+  - url: http://localhost:8080
+    description: localhost
+    variables: {}
+paths:
+  /api/states:
+    summary: Caminho principal da API
+    post:
+      summary: Cria um Estado
+      requestBody:
+        $ref: "#/components/requestBodies/rb"
+      responses:
+        201:
+          $ref: "#/components/responses/Created"
+        400:
+          $ref: "#/components/responses/Post_Bad_Request"
+    get:
+      summary: Retorna uma lista de Estados
+      parameters:
+        - in: query
+          name: regiao
+          schema:
+            type: string
+          required: false
+          description: Filtro por regiao
+        - in: query
+          name: sort
+          schema:
+            type: string
+          required: false
+          description: Ordena Estados por maior populacao ou area
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Estado_com_id"
+        400:
+          $ref: "#/components/responses/Bad_Request"
+  /api/states/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: integer
+      required: true
+    get:
+      summary: Retorna um Estado
+      responses:
+        200:
+          $ref: "#/components/responses/ok"
+        400:
+          $ref: "#/components/responses/Bad_Request"  
+        404:
+          $ref: "#/components/responses/Not_Found"
+    put:
+      summary: Atualiza um Estado
+      requestBody:
+        $ref: "#/components/requestBodies/rb"
+      responses:
+        200:
+          $ref: "#/components/responses/ok"
+        400:
+          $ref: "#/components/responses/Bad_Request"
+        404:
+          $ref: "#/components/responses/Not_Found"
+    delete:
+      summary: Remove um Estado
+      responses:
+        204:
+          $ref: "#/components/responses/No_Content"
+        400:
+          $ref: "#/components/responses/Bad_Request"
+        404:
+          $ref: "#/components/responses/Not_Found"
+components:
+  requestBodies:
+    rb:
+      content:
+        appplication/json:
+          schema:
+            $ref: "#/components/schemas/Estado_sem_id"
+  schemas:
+    Estado_com_id:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        regiao:
+          type: string
+        propulacao:
+          type: integer
+        capital:
+          type: string
+        area:
+          type: number
+          format: double
+    Estado_sem_id:
+      type: object
+      properties:
+        nome:
+          type: string
+        regiao:
+          type: string
+        propulacao:
+          type: integer
+        capital:
+          type: string
+        area:
+          type: number
+          format: double
+  responses:
+    ok:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Estado_com_id"
+    Created:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Estado_com_id"
+    No_Content:
+      description: No Content
+    Bad_Request:
+      description: Bad Request
+    Post_Bad_Request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+    Not_Found:
+      description: Not Found

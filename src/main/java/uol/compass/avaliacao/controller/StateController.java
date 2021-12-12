@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import uol.compass.avaliacao.dto.FormStateDTO;
 import uol.compass.avaliacao.dto.StateDTO;
 import uol.compass.avaliacao.model.CountryRegion;
 import uol.compass.avaliacao.model.State;
@@ -56,8 +57,8 @@ public class StateController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<StateDTO> create(@RequestBody @Valid StateDTO stateDTO, UriComponentsBuilder uriComponentsBuilder) {
-        State state = stateDTO.toModel(stateDTO);
+    public ResponseEntity<StateDTO> create(@RequestBody @Valid FormStateDTO formStateDTO, UriComponentsBuilder uriComponentsBuilder) {
+        State state = formStateDTO.toModel(formStateDTO);
         stateRepository.save(state);
 
         URI uri = uriComponentsBuilder.path("/api/states/{id}").buildAndExpand(state.getId()).toUri();
@@ -66,10 +67,10 @@ public class StateController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<StateDTO> update(@PathVariable Long id, @RequestBody @Valid StateDTO stateDTO) {
+    public ResponseEntity<StateDTO> update(@PathVariable Long id, @RequestBody @Valid FormStateDTO formStateDTO) {
         Optional<State> optional = stateRepository.findById(id);
         if (optional.isPresent()) {
-            State state = stateDTO.update(id, stateRepository);
+            State state = formStateDTO.update(id, stateRepository);
             return ResponseEntity.ok(new StateDTO(state));
         }
         return ResponseEntity.notFound().build();
