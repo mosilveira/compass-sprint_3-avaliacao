@@ -6,8 +6,6 @@ import uol.compass.avaliacao.repository.StateRepository;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class FormStateDTO {
 
@@ -51,11 +49,6 @@ public class FormStateDTO {
 
     public Double getArea() {
         return area;
-    }
-
-    // Método que converte uma lista da entidade estado em DTO
-    public static List<FormStateDTO> toDTO(List<State> states) {
-        return states.stream().map(FormStateDTO::new).collect(Collectors.toList());
     }
 
     // Método para converter um formulário na entidade
